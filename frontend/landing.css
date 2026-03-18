@@ -1,0 +1,466 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #6A1B9A, #8E24AA, #C2185B);
+    background-attachment: fixed;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Container Responsive */
+.container {
+    width: 100%;
+    max-width: 500px;
+    min-width: 280px;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 40px;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 30px;
+    animation: fadeIn 0.5s ease-in-out;
+    margin: 20px;
+}
+
+/* Logo Section */
+.logo {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.logo i {
+    font-size: 3em;
+    color: #FFD700;
+    margin-bottom: 10px;
+    animation: rotate 10s linear infinite;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.logo h1 {
+    color: white;
+    font-size: 1.5em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+h2 {
+    color: white;
+    text-transform: uppercase;
+    padding: 10px 0 20px 0;
+    font-size: 2em;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    animation: slideIn 0.5s ease-in-out;
+    text-align: center;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Form Groups */
+.form-group {
+    position: relative;
+    border-bottom: 3px solid rgba(255, 255, 255, 0.7);
+    margin: 20px 0 30px 0;
+    width: 100%;
+    transition: border-color 0.3s;
+}
+
+.form-group.error {
+    border-bottom-color: #ff4444;
+    animation: shake 0.3s ease-in-out;
+}
+
+.form-group.success {
+    border-bottom-color: #00C851;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.form-group input {
+    width: 100%;
+    height: 50px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    font-size: 1em;
+    color: white;
+    padding: 0 35px 0 10px;
+}
+
+.form-group label {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1em;
+    pointer-events: none;
+    transition: 0.3s;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    white-space: nowrap;
+}
+
+.form-group input:focus ~ label,
+.form-group input:valid ~ label {
+    top: -20px;
+    left: 5px;
+    font-size: 0.8em;
+    color: #FFD700;
+}
+
+.form-group i {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.2em;
+    pointer-events: none;
+    transition: 0.3s;
+}
+
+.form-group input:focus ~ i {
+    color: #FFD700;
+}
+
+.form-group .error-message {
+    color: #ff4444;
+    font-size: 0.75em;
+    position: absolute;
+    bottom: -20px;
+    left: 10px;
+    display: none;
+    white-space: nowrap;
+}
+
+.form-group.error .error-message {
+    display: block;
+}
+
+/* Password Requirements */
+.password-requirements {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 15px;
+    margin: 10px 0 20px 0;
+    width: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    animation: slideDown 0.3s ease-in-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.password-requirements p {
+    color: #FFD700;
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 0.9em;
+}
+
+.password-requirements ul {
+    list-style: none;
+}
+
+.password-requirements li {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.85em;
+    margin: 5px 0;
+    padding-left: 20px;
+    position: relative;
+    transition: color 0.3s;
+}
+
+.password-requirements li::before {
+    content: '○';
+    position: absolute;
+    left: 0;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.password-requirements li.met {
+    color: #00C851;
+}
+
+.password-requirements li.met::before {
+    content: '✓';
+    color: #00C851;
+}
+
+.password-requirements li.unmet {
+    color: #ff4444;
+}
+
+.password-requirements li.unmet::before {
+    content: '✗';
+    color: #ff4444;
+}
+
+/* Form Options */
+.form-options {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin: 15px 0 25px 0;
+    gap: 15px;
+}
+
+.password-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    flex: 1 1 auto;
+}
+
+.password-toggle input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: #FFD700;
+    flex-shrink: 0;
+}
+
+.password-toggle label {
+    color: white;
+    font-size: 0.9em;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.forgot-password {
+    flex: 1 1 auto;
+    text-align: right;
+}
+
+.forgot-password a {
+    color: #FFD700;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9em;
+    transition: 0.3s;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.forgot-password a:hover {
+    text-decoration: underline;
+    color: white;
+    transform: translateX(5px);
+}
+
+/* Login Button */
+#btn {
+    width: 100%;
+    height: 50px;
+    border: none;
+    border-radius: 40px;
+    font-size: 1.3em;
+    font-weight: 600;
+    margin: 10px 0 20px 0;
+    cursor: pointer;
+    transition: 0.5s;
+    background: white;
+    color: #6A1B9A;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+}
+
+#btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    transform: scale(1.02);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+#btn:active {
+    transform: scale(0.98);
+}
+
+#btn.loading {
+    color: transparent;
+}
+
+#btn.loading::after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 3px solid #6A1B9A;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Register Link */
+.register-link {
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.register-link p {
+    color: white;
+    font-size: 0.95em;
+}
+
+.register-link a {
+    color: #FFD700;
+    text-decoration: none;
+    font-weight: 700;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+    color: white;
+}
+
+/* Toast Notification */
+.toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 25px;
+    background: white;
+    color: #6A1B9A;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transform: translateX(400px);
+    transition: transform 0.3s ease-in-out;
+    z-index: 1000;
+    font-weight: 600;
+    border-left: 5px solid #FFD700;
+    max-width: 350px;
+    width: calc(100% - 40px);
+    word-wrap: break-word;
+}
+
+.toast.show {
+    transform: translateX(0);
+}
+
+.toast.success {
+    border-left-color: #00C851;
+}
+
+.toast.error {
+    border-left-color: #ff4444;
+}
+
+/* Loading Overlay */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 2000;
+}
+
+.loading-overlay.show {
+    display: flex;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #FFD700;
+    animation: spin 1s ease-in-out infinite;
+    margin-bottom: 15px;
+}
+
+.loading-overlay p {
+    color: white;
+    font-size: 1.2em;
+    font-weight: 600;
+}
+
+/* Responsive Breakpoints - Same as before */
+@media (max-width: 575.98px) {
+    .container {
+        padding: 20px 15px;
+        border-radius: 30px;
+    }
+    
+    .password-requirements {
+        padding: 12px;
+    }
+    
+    .password-requirements li {
+        font-size: 0.8em;
+    }
+}
+
+/* ... (rest of the responsive CSS remains the same) ... */

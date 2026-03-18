@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Medicaps University - Register</title>
+    <link rel="stylesheet" href="register.css">
+    <script src="https://kit.fontawesome.com/aeeac66933.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <h2>Medicaps University</h2>
+        </div>
+        
+        <h2>Create Account</h2>
+        <p class="subtitle">Join our academic community</p>
+        
+        <form id="registerForm" onsubmit="validateForm(event)">
+                        <!-- name -->
+            <div class="form-group">
+                <input type="text" id="name" required>
+                <label for="">Name</label>
+                <i class="fa-solid fa-user"></i>
+                <small class="error-message" id="nameError"></small>
+            </div>
+
+            <!-- Username -->
+            <div class="form-group">
+                <input type="text" id="username" required>
+                <label for="">Username</label>
+                <i class="fa-solid fa-user"></i>
+                <small class="error-message" id="usernameError"></small>
+            </div>
+
+            <!-- Password -->
+            <div class="form-group">
+                <input type="password" id="password" required>
+                <label for="">Password</label>
+                <i class="fa-solid fa-lock"></i>
+                <small class="error-message" id="passwordError"></small>
+            </div>
+
+            <!-- Password Requirements Indicator with all conditions -->
+            <div class="password-requirements" id="passwordRequirements">
+                <p><i class="fa-solid fa-shield-halved"></i> Password must contain:</p>
+                <ul>
+                    <li id="req-length"><i class="fa-regular fa-circle"></i> At least 8 characters</li>
+                    <li id="req-uppercase"><i class="fa-regular fa-circle"></i> One uppercase letter (A-Z)</li>
+                    <li id="req-lowercase"><i class="fa-regular fa-circle"></i> One lowercase letter (a-z)</li>
+                    <li id="req-number"><i class="fa-regular fa-circle"></i> One number (0-9)</li>
+                    <li id="req-special"><i class="fa-regular fa-circle"></i> One special character (!@#$%^&*)</li>
+                </ul>
+            </div>
+
+            <!-- Password Strength Meter -->
+            <div class="password-strength">
+                <div class="strength-meter">
+                    <div class="strength-bar" id="strengthBar"></div>
+                </div>
+                <span class="strength-text" id="strengthText">Password Strength</span>
+            </div>
+
+            <!-- Show Password Toggle -->
+            <div class="password-toggle">
+                <input type="checkbox" id="showPassword" onclick="togglePassword()">
+                <label for="showPassword"><i class="fa-regular fa-eye"></i> Show Password</label>
+            </div>
+
+            <!-- Register Button -->
+            <input id="btn" type="submit" value="Register">
+
+            <!-- Login Link -->
+            <div class="login-link">
+                <p>Already have an account? <a href="index.html">Login here</a></p>
+            </div>
+        </form>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="spinner"></div>
+        <p>Creating your account...</p>
+    </div>
+
+    <script src="register.js"></script>
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medicaps University - View Attendance</title>
+
+<link rel="stylesheet" href="./view_attendance.css">
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<!-- Flatpickr -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+<div class="logo">
+<i class="fas fa-graduation-cap"></i>
+<h2>Medicaps University</h2>
+</div>
+
+<a href="dashboard.html" class="back-btn">
+<i class="fas fa-arrow-left"></i> Back to Dashboard
+</a>
+</div>
+
+
+<div class="content">
+
+<div class="page-title">
+<h1><i class="fas fa-eye"></i> View Attendance</h1>
+<p>Check attendance records with filters</p>
+</div>
+
+
+<div class="live-date-card">
+<div class="date-info">
+<i class="fas fa-calendar-alt"></i>
+<div class="date-text" id="liveDate"></div>
+</div>
+
+<div class="stats-badge" id="total_strengthRecords">
+Loading records...
+</div>
+</div>
+
+
+<div class="filter-section">
+
+<h3 class="filter-title">
+<i class="fas fa-filter"></i> Filter Attendance Records
+</h3>
+
+<div class="filter-grid">
+
+<div class="filter-group">
+<label><i class="fas fa-calendar"></i> Date Range</label>
+
+<div class="date-range">
+<input type="text" id="fromDate" placeholder="From Date" class="datepicker">
+<input type="text" id="toDate" placeholder="To Date" class="datepicker">
+</div>
+</div>
+
+
+<div class="filter-group">
+
+<label><i class="fas fa-building"></i> Department</label>
+
+<select id="filterDepartment">
+<option value="all">All Departments</option>
+<option value="Computer Science">Computer Science</option>
+<option value="Information Technology">Information Technology</option>
+<option value="Electrical Engineering">Electrical Engineering</option>
+<option value="Electronics Engineering">Electronics Engineering</option>
+<option value="Mechanical Engineering">Mechanical Engineering</option>
+<option value="Civil Engineering">Civil Engineering</option>
+</select>
+
+</div>
+</div>
+
+
+<div class="filter-actions">
+
+<button class="filter-btn apply" onclick="applyFilters()">
+<i class="fas fa-search"></i> Apply Filters
+</button>
+
+<button class="filter-btn reset" onclick="resetFilters()">
+<i class="fas fa-redo"></i> Reset Filters
+</button>
+
+<button class="export-btn" onclick="exportToCSV()">
+<i class="fas fa-download"></i> Export to CSV
+</button>
+
+</div>
+</div>
+
+
+<div class="summary-stats" id="summaryStats">
+
+<div class="stat-box">
+<div class="label">Total Records</div>
+<div class="value total_strength" id="total_strengthRecordsCount">0</div>
+</div>
+
+<div class="stat-box">
+<div class="label">Total Students</div>
+<div class="value total_strength" id="total_strengthStudentsSum">0</div>
+</div>
+
+<div class="stat-box">
+<div class="label">Total Present</div>
+<div class="value present_count" id="total_strengthPresentSum">0</div>
+</div>
+
+<div class="stat-box">
+<div class="label">Average Attendance</div>
+<div class="value average" id="averageAttendance">0%</div>
+</div>
+
+</div>
+
+
+<div class="table-section">
+
+<div class="table-header">
+
+<h3 class="table-title">
+<i class="fas fa-list"></i> Attendance Records
+</h3>
+
+<span class="record-count" id="displayCount">
+Showing 0 records
+</span>
+
+</div>
+
+
+<table class="attendance-table" id="attendanceTable">
+
+<thead>
+<tr>
+<th>S.No</th>
+<th>Date</th>
+<th>Time</th>
+<th>Department</th>
+<th>Class</th>
+<th>Total</th>
+<th>Present</th>
+<th>Absent</th>
+<th>Percentage</th>
+<th>Status</th>
+</tr>
+</thead>
+
+<tbody id="tableBody">
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script src="view_attendance.js"></script>
+
+</body>
+</html>

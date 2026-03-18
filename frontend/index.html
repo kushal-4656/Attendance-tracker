@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Medicaps University - Login</title>
+    <link rel="stylesheet" href="landing.css">
+    <script src="https://kit.fontawesome.com/aeeac66933.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <h1>Medicaps University</h1>
+        </div>
+        
+        <h2>Welcome Back</h2>
+        
+        <form id="loginForm" onsubmit="validateForm(event)">
+            <div class="form-group">
+                <input type="text" id="username" required>
+                <label for="">Username</label>
+                <i class="fa-solid fa-user"></i>
+                <small class="error-message" id="usernameError"></small>
+            </div>
+            
+            <div class="form-group">
+                <input type="password" id="password" required>
+                <label for="">Password</label>
+                <i class="fa-solid fa-lock"></i>
+                <small class="error-message" id="passwordError"></small>
+            </div>
+
+            <!-- Password Requirements Indicator -->
+            <div class="password-requirements" id="passwordRequirements">
+                <p>Password must contain:</p>
+                <ul>
+                    <li id="req-length">✓ At least 8 characters</li>
+                    <li id="req-uppercase">✓ One uppercase letter</li>
+                    <li id="req-lowercase">✓ One lowercase letter</li>
+                    <li id="req-number">✓ One number</li>
+                    <li id="req-special">✓ One special character (!@#$%^&*)</li>
+                </ul>
+            </div>
+
+            <div class="form-options">
+                <div class="password-toggle">
+                    <input type="checkbox" id="showPassword" onclick="togglePassword()">
+                    <label for="showPassword">Show Password</label>
+                </div>
+
+                <div class="forgot-password">
+                    <a href="forget.html" onclick="forgotPassword()">Forgot Password?</a>
+                </div>
+            </div>
+
+            <input id="btn" type="submit" value="Login">
+
+            <div class="register-link">
+                <p>Don't have an account? <a href="register.html" onclick="register()">Register</a></p>
+            </div>
+        </form>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="spinner"></div>
+        <p>Logging in...</p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
