@@ -3,7 +3,8 @@ uvicorn
 sqlalchemy
 pymysql
 passlib[bcrypt]
+bcrypt
 python-multipart
 dotenv
-    cryptography
+cryptography
     

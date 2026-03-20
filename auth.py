@@ -1,13 +1,13 @@
 from passlib.context import CryptContext
 import re
 
-pwd_context=CryptContext(schemes=["bcrypt"], deprecated="auto")
+pwd_context=CryptContext(schemes=["bcrypt_sha256"], deprecated="auto")
 
 def hash_password(password:str):
-    return pwd_context.hash(password[:72])
+    return pwd_context.hash(password)
 
 def varify_password(plain_password:str, hash_password:str):
-    return pwd_context.verify(plain_password[:72],hash_password)
+    return pwd_context.verify(plain_password,hash_password)
 
 def validate_password(password:str):
     pattern = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$'
