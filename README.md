@@ -118,16 +118,3 @@ The dashboard shows:
 
 ---
 
-## 📌 Future Improvements
-
-* Login system for teachers
-* Student database management
-* Export attendance reports
-* Data visualization charts
-
----
-
-## 👨‍💻 Author
-
-**Kushal Pathak**
-B.Tech IT Student
