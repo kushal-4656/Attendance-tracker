@@ -156,8 +156,8 @@ function validateUsername(username) {
     } else if (username.length > 20) {
         showError(usernameGroup, 'Username must be less than 20 characters');
         return false;
-    } else if (!/^[a-zA-Z0-9_]+$/.test(username)) {
-        showError(usernameGroup, 'Username can only contain letters, numbers, and underscores');
+    } else if (!/^[a-zA-Z0-9_-]+$/.test(username)) {
+        showError(usernameGroup, 'Username can only contain letters, numbers, dash and underscores');
         return false;
     } else {
         showSuccess(usernameGroup);

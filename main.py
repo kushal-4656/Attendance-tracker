@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware 
 from sqlalchemy.orm import Session
-from database import SessionLocal
+from database import SessionLocal, Base, engine
 import models, schemas
 from auth import hash_password, varify_password, validate_password
 app=FastAPI()
@@ -12,6 +12,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+Base.metadata.create_all(bind=engine)
 def get_db():
     db=SessionLocal()
     try:
