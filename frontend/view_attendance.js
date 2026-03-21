@@ -43,7 +43,7 @@ async function loadAttendanceData() {
     try {
 
         const response = await fetch(
-            `http://127.0.0.1:8000/attendence?faculty_id=${faculty_id}`
+            `https://attendance-tracker-tvx5.onrender.com/attendence?faculty_id=${faculty_id}`
         );
 
         if (!response.ok) {
