@@ -53,7 +53,7 @@ async function resetPassword(event) {
         showLoading();
       try {
 
-            const response = await fetch("http://127.0.0.1:8000/forgot-password", {
+            const response = await fetch("https://attendance-tracker-tvx5.onrender.com/forgot-password", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
