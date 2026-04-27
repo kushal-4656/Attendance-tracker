@@ -1,99 +1,94 @@
+document.addEventListener("DOMContentLoaded", async () => {
+  updateDateTime();
+
+  await loadDepartments(); // 1️⃣ first load options
+  await autoSelectDepartment(); // 2️⃣ then select
+});
 // ========== LIVE DATE AND TIME ==========
 function updateDateTime() {
-    const now = new Date();
+  const now = new Date();
 
-    const dateOptions = {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-    };
+  const dateOptions = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
 
-    document.getElementById('liveDate').textContent =
-        now.toLocaleDateString('en-US', dateOptions);
+  document.getElementById("liveDate").textContent = now.toLocaleDateString(
+    "en-US",
+    dateOptions,
+  );
 }
 
 // Update every second
 setInterval(updateDateTime, 1000);
 updateDateTime();
 
-
 // ========== INITIALIZE DATE PICKERS ==========
 flatpickr(".datepicker", {
-    dateFormat: "Y-m-d",
-    allowInput: true,
-    maxDate: "today"
+  dateFormat: "Y-m-d",
+  allowInput: true,
+  maxDate: "today",
 });
-
 
 // ========== GLOBAL DATA ==========
 let attendanceData = [];
 
-
 // ========== LOAD ATTENDANCE DATA ==========
 async function loadAttendanceData() {
+  const faculty_id = localStorage.getItem("faculty_id");
 
-    const faculty_id = localStorage.getItem("faculty_id");
+  if (!faculty_id) {
+    showToast("Faculty not logged in", "error");
+    return;
+  }
 
-    if (!faculty_id) {
-        showToast("Faculty not logged in", "error");
-        return;
+  try {
+    const response = await fetch(
+      `https://attendance-tracker-tvx5.onrender.com/attendance?faculty_id=${faculty_id}`,
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch attendance");
     }
 
-    try {
+    const data = await response.json();
 
-        const response = await fetch(
-            `https://attendance-tracker-tvx5.onrender.com/attendence?faculty_id=${faculty_id}`
-        );
+    attendanceData = data.map((record) => {
+      const total = record.total_strength;
+      const present = record.present_count;
+      const absent = record.total_strength - record.present_count;
 
-        if (!response.ok) {
-            throw new Error("Failed to fetch attendance");
-        }
+      const percentage = ((present / total) * 100).toFixed(1);
 
-        const data = await response.json();
+      return {
+        date: record.date,
+        time: "N/A",
+        department: record.department,
+        class_name: record.class_name,
+        total: total,
+        present: present,
+        absent: absent,
+        percentage: percentage,
+      };
+    });
 
-        attendanceData = data.map(record => {
-
-            const total = record.total_strength;
-            const present = record.present_count;
-            const absent = record.total_strength - record.present_count;
-
-            const percentage = ((present / total) * 100).toFixed(1);
-
-            return {
-                date: record.date,
-                time: "N/A",
-                department: record.department,
-                class_name: record.class_name,
-                total: total,
-                present: present,
-                absent: absent,
-                percentage: percentage
-            };
-
-        });
-
-        updateTotalRecords();
-        displayAttendance(attendanceData);
-
-    } catch (error) {
-
-        console.error(error);
-        showToast("Failed to load attendance", "error");
-
-    }
+    updateTotalRecords();
+    displayAttendance(attendanceData);
+  } catch (error) {
+    console.error(error);
+    showToast("Failed to load attendance", "error");
+  }
 }
-
 
 // ========== DISPLAY ATTENDANCE ==========
 function displayAttendance(data) {
+  const tbody = document.getElementById("tableBody");
+  const displayCount = document.getElementById("displayCount");
 
-    const tbody = document.getElementById('tableBody');
-    const displayCount = document.getElementById('displayCount');
-
-    if (data.length === 0) {
-
-        tbody.innerHTML = `
+  if (data.length === 0) {
+    tbody.innerHTML = `
         <tr>
             <td colspan="10" class="no-data">
                 <i class="fas fa-folder-open"></i>
@@ -105,33 +100,30 @@ function displayAttendance(data) {
         </tr>
         `;
 
-        displayCount.textContent = "Showing 0 records";
-        return;
+    displayCount.textContent = "Showing 0 records";
+    return;
+  }
+
+  let html = "";
+
+  data.forEach((record, index) => {
+    const percentage = parseFloat(record.percentage);
+
+    let statusClass = "percentage-medium";
+    let statusText = "Average";
+
+    if (percentage >= 75) {
+      statusClass = "percentage-high";
+      statusText = "Good";
+    } else if (percentage >= 60) {
+      statusClass = "percentage-medium";
+      statusText = "Average";
+    } else {
+      statusClass = "percentage-low";
+      statusText = "Low";
     }
 
-    let html = "";
-
-    data.forEach((record, index) => {
-
-        const percentage = parseFloat(record.percentage);
-
-        let statusClass = "percentage-medium";
-        let statusText = "Average";
-
-        if (percentage >= 75) {
-            statusClass = "percentage-high";
-            statusText = "Good";
-        }
-        else if (percentage >= 60) {
-            statusClass = "percentage-medium";
-            statusText = "Average";
-        }
-        else {
-            statusClass = "percentage-low";
-            statusText = "Low";
-        }
-
-        html += `
+    html += `
         <tr onclick="viewRecordDetails(${index})">
             <td>${index + 1}</td>
             <td>${record.date}</td>
@@ -149,110 +141,93 @@ function displayAttendance(data) {
             </td>
         </tr>
         `;
-    });
+  });
 
-    tbody.innerHTML = html;
-    displayCount.textContent = `Showing ${data.length} records`;
+  tbody.innerHTML = html;
+  displayCount.textContent = `Showing ${data.length} records`;
 
-    updateSummaryStats(data);
+  updateSummaryStats(data);
 }
-
 
 // ========== SUMMARY STATS ==========
 function updateSummaryStats(data) {
+  const totalRecords = data.length;
 
-    const totalRecords = data.length;
+  const totalStudents = data.reduce((sum, record) => sum + record.total, 0);
 
-    const totalStudents =
-        data.reduce((sum, record) => sum + record.total, 0);
+  const totalPresent = data.reduce((sum, record) => sum + record.present, 0);
 
-    const totalPresent =
-        data.reduce((sum, record) => sum + record.present, 0);
+  const avgAttendance =
+    totalStudents > 0 ? ((totalPresent / totalStudents) * 100).toFixed(1) : 0;
 
-    const avgAttendance =
-        totalStudents > 0
-            ? ((totalPresent / totalStudents) * 100).toFixed(1)
-            : 0;
+  document.getElementById("total_strengthRecordsCount").textContent =
+    totalRecords;
 
-    document.getElementById('total_strengthRecordsCount')
-        .textContent = totalRecords;
+  document.getElementById("total_strengthStudentsSum").textContent =
+    totalStudents;
 
-    document.getElementById('total_strengthStudentsSum')
-        .textContent = totalStudents;
+  document.getElementById("total_strengthPresentSum").textContent =
+    totalPresent;
 
-    document.getElementById('total_strengthPresentSum')
-        .textContent = totalPresent;
-
-    document.getElementById('averageAttendance')
-        .textContent = avgAttendance + "%";
+  document.getElementById("averageAttendance").textContent =
+    avgAttendance + "%";
 }
-
 
 // ========== TOTAL RECORDS ==========
 function updateTotalRecords() {
-
-    document.getElementById("total_strengthRecords")
-        .textContent = `${attendanceData.length} Total Records`;
+  document.getElementById("total_strengthRecords").textContent =
+    `${attendanceData.length} Total Records`;
 }
-
 
 // ========== APPLY FILTERS ==========
 function applyFilters() {
+  const fromDate = document.getElementById("fromDate").value;
 
-    const fromDate =
-        document.getElementById("fromDate").value;
+  const toDate = document.getElementById("toDate").value;
 
-    const toDate =
-        document.getElementById("toDate").value;
+  const department = document.getElementById("filterDepartment").value;
 
-    const department =
-        document.getElementById("filterDepartment").value;
+  let filteredData = [...attendanceData];
 
-    let filteredData = [...attendanceData];
+  if (fromDate) {
+    filteredData = filteredData.filter(
+      (record) => new Date(record.date) >= new Date(fromDate),
+    );
+  }
 
-    if (fromDate) {
-        filteredData = filteredData.filter(record =>
-            new Date(record.date) >= new Date(fromDate)
-        );
-    }
+  if (toDate) {
+    filteredData = filteredData.filter(
+      (record) => new Date(record.date) <= new Date(toDate),
+    );
+  }
 
-    if (toDate) {
-        filteredData = filteredData.filter(record =>
-            new Date(record.date) <= new Date(toDate)
-        );
-    }
+  if (department !== "all") {
+    filteredData = filteredData.filter(
+      (record) => record.department === department,
+    );
+  }
 
-    if (department !== "all") {
-        filteredData = filteredData.filter(record =>
-            record.department === department
-        );
-    }
+  displayAttendance(filteredData);
 
-    displayAttendance(filteredData);
-
-    showToast(`Showing ${filteredData.length} records`, "success");
+  showToast(`Showing ${filteredData.length} records`, "success");
 }
-
 
 // ========== RESET FILTERS ==========
 function resetFilters() {
+  document.getElementById("fromDate").value = "";
+  document.getElementById("toDate").value = "";
+  document.getElementById("filterDepartment").value = "all";
 
-    document.getElementById("fromDate").value = "";
-    document.getElementById("toDate").value = "";
-    document.getElementById("filterDepartment").value = "all";
+  displayAttendance(attendanceData);
 
-    displayAttendance(attendanceData);
-
-    showToast("Filters reset", "success");
+  showToast("Filters reset", "success");
 }
-
 
 // ========== VIEW RECORD ==========
 function viewRecordDetails(index) {
+  const record = attendanceData[index];
 
-    const record = attendanceData[index];
-
-    alert(`
+  alert(`
 Attendance Details
 Date: ${record.date}
 Department: ${record.department}
@@ -266,71 +241,101 @@ Percentage: ${record.percentage}%
 `);
 }
 
-
 // ========== EXPORT CSV ==========
 function exportToCSV() {
+  if (attendanceData.length === 0) {
+    showToast("No data to export", "error");
+    return;
+  }
 
-    if (attendanceData.length === 0) {
-        showToast("No data to export", "error");
-        return;
-    }
+  const headers = [
+    "Date",
+    "Time",
+    "Department",
+    "Class",
+    "Total",
+    "Present",
+    "Absent",
+    "Percentage",
+  ];
 
-    const headers =
-        ["Date","Time","Department","Class","Total","Present","Absent","Percentage"];
+  const rows = attendanceData.map((record) => [
+    record.date,
+    record.time,
+    record.department,
+    record.class_name,
+    record.total,
+    record.present,
+    record.absent,
+    record.percentage + "%",
+  ]);
 
-    const rows = attendanceData.map(record => [
-        record.date,
-        record.time,
-        record.department,
-        record.class_name,
-        record.total,
-        record.present,
-        record.absent,
-        record.percentage + "%"
-    ]);
+  const csvContent = [headers, ...rows].map((e) => e.join(",")).join("\n");
 
-    const csvContent =
-        [headers, ...rows].map(e => e.join(",")).join("\n");
+  const blob = new Blob([csvContent], { type: "text/csv" });
 
-    const blob =
-        new Blob([csvContent], { type: "text/csv" });
+  const url = window.URL.createObjectURL(blob);
 
-    const url =
-        window.URL.createObjectURL(blob);
+  const a = document.createElement("a");
 
-    const a =
-        document.createElement("a");
+  a.href = url;
+  a.download = `attendance_${new Date().toISOString().split("T")[0]}.csv`;
 
-    a.href = url;
-    a.download =
-        `attendance_${new Date().toISOString().split("T")[0]}.csv`;
+  a.click();
 
-    a.click();
-
-    showToast("CSV Exported", "success");
+  showToast("CSV Exported", "success");
 }
-
 
 // ========== TOAST ==========
 function showToast(message, type = "success") {
+  const toast = document.getElementById("toast");
 
-    const toast =
-        document.getElementById("toast");
+  toast.textContent = message;
 
-    toast.textContent = message;
+  toast.className = "toast " + type;
 
-    toast.className =
-        "toast " + type;
+  toast.classList.add("show");
 
-    toast.classList.add("show");
-
-    setTimeout(() => {
-        toast.classList.remove("show");
-    }, 3000);
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 3000);
 }
-
 
 // ========== INITIAL LOAD ==========
 loadAttendanceData();
 
 console.log("View Attendance page loaded successfully");
+
+async function autoSelectDepartment() {
+  const faculty_id = localStorage.getItem("faculty_id");
+
+  try {
+    const res = await fetch(`https://attendance-tracker-tvx5.onrender.com/faculty/${faculty_id}`);
+    const data = await res.json();
+
+    const dropdown = document.getElementById("department");
+
+    dropdown.value = data.department_id; // 🔥 key line
+
+    // optional (recommended)
+    dropdown.disabled = true;
+  } catch (error) {
+    console.error("Error fetching faculty:", error);
+  }
+}
+
+async function loadDepartments() {
+  const res = await fetch("https://attendance-tracker-tvx5.onrender.com/departments");
+  const data = await res.json();
+
+  const dropdown = document.getElementById("department");
+
+  dropdown.innerHTML = '<option value="">Select Department</option>';
+
+  data.forEach((dep) => {
+    const option = document.createElement("option");
+    option.value = dep.id; // 🔥 must be id
+    option.text = dep.name;
+    dropdown.appendChild(option);
+  });
+}

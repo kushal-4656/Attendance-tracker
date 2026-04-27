@@ -1,3 +1,10 @@
+document.addEventListener("DOMContentLoaded", async () => {
+    updateDateTime();
+
+    await loadDepartments();        // 1️⃣ first load options
+    await autoSelectDepartment();   // 2️⃣ then select
+await loadClasses();          // 🔥 new
+});
 // LIVE DATE TIME
 function updateDateTime(){
 
@@ -78,14 +85,17 @@ document.getElementById("summaryPercentage").textContent=percent+"%";
 // UPDATE SUMMARY
 function updateSummary(){
 
-const dept=document.getElementById("department").value;
-const class_name=document.getElementById("class_name").value;
+    // department is now text (not dropdown)
+    const deptDropdown = document.getElementById("department");
+const dept = deptDropdown.options[deptDropdown.selectedIndex]?.text;
+    // get selected class name (not id)fa
+    const classDropdown = document.getElementById("class_name");
+    const class_name = classDropdown.options[classDropdown.selectedIndex]?.text;
 
-document.getElementById("summaryDept").textContent = dept || "Not selected";
-document.getElementById("summaryClass").textContent = class_name || "Not entered";
+    document.getElementById("summaryDept").textContent = dept || "Not selected";
+    document.getElementById("summaryClass").textContent = class_name || "Not selected";
 
-calculateAttendance();
-
+    calculateAttendance();
 }
 
 
@@ -111,19 +121,13 @@ showToast("Form reset");
 // SUBMIT
 async function submitAttendance(){
 
-const dept=document.getElementById("department").value;
-const class_name=document.getElementById("class_name").value;
+const class_id=document.getElementById("class_name").value;
 
 const total=parseInt(document.getElementById("total_strengthStrength").value)||0;
 const present=parseInt(document.getElementById("present_countCount").value)||0;
 
-if(!dept){
-showToast("Select department","error");
-return;
-}
-
-if(!class_name){
-showToast("Enter class name","error");
+if(!class_id){
+showToast("Select class","error");
 return;
 }
 
@@ -141,8 +145,7 @@ headers:{
 "Content-Type":"application/json"
 },
 body:JSON.stringify({
-department:dept,
-class_name:class_name,
+class_id: class_id,          // 🔥 changed
 total_strength:total,
 present_count:present,
 date:date
@@ -162,8 +165,6 @@ showToast("Error saving attendance","error");
 }
 
 }
-
-
 // TOAST
 function showToast(message,type="success"){
 
@@ -178,4 +179,61 @@ setTimeout(()=>{
 toast.classList.remove("show");
 },3000);
 
+}
+async function autoSelectDepartment() {
+    const faculty_id = localStorage.getItem("faculty_id");
+
+    try {
+        const res = await fetch(`https://attendance-tracker-tvx5.onrender.com/faculty/${faculty_id}`);
+        const data = await res.json();
+
+        const dropdown = document.getElementById("department");
+
+        dropdown.value = data.department_id;   // 🔥 key line
+
+        // optional (recommended)
+        dropdown.disabled = true;
+
+    } catch (error) {
+        console.error("Error fetching faculty:", error);
+    }
+}
+
+async function loadDepartments() {
+    const res = await fetch("https://attendance-tracker-tvx5.onrender.com/departments");
+    const data = await res.json();
+
+    const dropdown = document.getElementById("department");
+
+    dropdown.innerHTML = '<option value="">Select Department</option>';
+
+    data.forEach(dep => {
+        const option = document.createElement("option");
+        option.value = dep.id;     // 🔥 must be id
+        option.text = dep.name;
+        dropdown.appendChild(option);
+    });
+}
+async function loadClasses() {
+
+    const faculty_id = localStorage.getItem("faculty_id");
+
+    try {
+        const res = await fetch(`https://attendance-tracker-tvx5.onrender.com/classes/${faculty_id}`);
+        const data = await res.json();
+
+        const dropdown = document.getElementById("class_name");
+
+        dropdown.innerHTML = '<option value="">Select Class</option>';
+
+        data.forEach(cls => {
+            const option = document.createElement("option");
+            option.value = cls.id;     // 🔥 important
+            option.text = cls.name;    // 👀 visible
+            dropdown.appendChild(option);
+        });
+
+    } catch (error) {
+        console.error("Error loading classes:", error);
+    }
 }

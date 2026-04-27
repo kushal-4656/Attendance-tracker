@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Medicaps University - Teacher Registration</title>
+    <link rel="stylesheet" href="host.css">
+    <script src="https://kit.fontawesome.com/aeeac66933.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <i class="fa-solid fa-chalkboard-user"></i>
+            <h1>Medicaps University</h1>
+        </div>
+        
+        <h2>Teacher Registration</h2>
+        <p class="subtitle">Register as a faculty member</p>
+        
+        <form id="teacherRegisterForm" onsubmit="return registerTeacher(event)">
+            <!-- Full Name -->
+            <div class="form-group">
+                <input type="text" id="fullName" required>
+                <label>Full Name</label>
+                <i class="fa-solid fa-user-graduate"></i>
+                <small class="error-message" id="nameError"></small>
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">
+                <input type="email" id="email" required>
+                <label>Email Address</label>
+                <i class="fa-solid fa-envelope"></i>
+                <small class="error-message" id="emailError"></small>
+            </div>
+
+            <!-- Phone Number -->
+            <div class="form-group">
+                <input type="tel" id="phone" required>
+                <label>Phone Number</label>
+                <i class="fa-solid fa-phone"></i>
+                <small class="error-message" id="phoneError"></small>
+            </div>
+
+            <!-- Department Dropdown -->
+            <div class="form-group department-group">
+                <div class="custom-select" id="customSelect">
+                    <div class="select-trigger" onclick="toggleDropdown()">
+                        <span class="select-value">Select Department</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                    <div class="select-options" id="selectOptions">
+                        <div class="options-list" id="optionsList">
+                            <div class="loading-options">
+                                <i class="fa-solid fa-spinner fa-spin"></i> Loading departments...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <label>Department</label>
+                <i class="fa-solid fa-building"></i>
+                <input type="hidden" id="department" required>
+                <small class="error-message" id="deptError"></small>
+            </div>
+
+            <!-- Registration Button -->
+            <button type="submit" class="btn" id="registerBtn">
+                <i class="fa-solid fa-user-plus"></i> Register Teacher
+            </button>
+            
+            <!-- Back to Login -->
+            <div class="back-to-login">
+                <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Back to Login</a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <div class="success-icon">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <h3>Registration Successful!</h3>
+            <div class="registration-details">
+                <div class="detail-row">
+                    <i class="fa-solid fa-user"></i>
+                    <span><strong>Teacher:</strong> <span id="displayName"></span></span>
+                </div>
+                <div class="detail-row">
+                    <i class="fa-solid fa-envelope"></i>
+                    <span><strong>Email:</strong> <span id="displayEmail"></span></span>
+                </div>
+                <div class="detail-row">
+                    <i class="fa-solid fa-phone"></i>
+                    <span><strong>Phone:</strong> <span id="displayPhone"></span></span>
+                </div>
+                <div class="detail-row">
+                    <i class="fa-solid fa-building"></i>
+                    <span><strong>Department:</strong> <span id="displayDept"></span></span>
+                </div>
+                <div class="notification-sent">
+                    <i class="fa-solid fa-envelope"></i> Login credentials sent to email
+                    <br>
+                    <i class="fa-solid fa-mobile-screen-button"></i> Password sent via SMS
+                </div>
+                <div class="password-note">
+                    <i class="fa-solid fa-key"></i> 
+                    Password has been sent to registered email and phone number
+                </div>
+            </div>
+            <button onclick="closeModal()" class="modal-btn">Done</button>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="spinner"></div>
+        <p>Registering teacher...</p>
+    </div>
+
+    <script src="host.js"></script>
+</body>
+</html>

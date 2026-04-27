@@ -1,11 +1,11 @@
 // Wait for DOM to load
 document.addEventListener('DOMContentLoaded', function() {
     // Add input event listeners for real-time validation
-    const usernameInput = document.getElementById('username');
+    const emailInput = document.getElementById('email');
     const passwordInput = document.getElementById('password');
     
-    if (usernameInput) {
-        usernameInput.addEventListener('input', function() {
+    if (emailInput) {
+        emailInput.addEventListener('input', function() {
             validateUsername(this.value);
         });
     }
@@ -89,10 +89,10 @@ async function validateForm(event) {
 
     event.preventDefault();
     
-    const username = document.getElementById('username').value.trim();
+    const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value;
     
-    const isUsernameValid = validateUsername(username);
+    const isUsernameValid = validateUsername(email);
     const isPasswordValid = validatePassword(password);
     
     if (isUsernameValid && isPasswordValid) {
@@ -107,7 +107,7 @@ async function validateForm(event) {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    username: username,
+                    email: email,
                     password: password
                 })
             });
@@ -119,6 +119,9 @@ async function validateForm(event) {
             if (response.ok) {
     localStorage.setItem("faculty_id", data.faculty_id);
     localStorage.setItem("faculty_name", data.name);            
+    localStorage.setItem("faculty_dept", data.department_name);
+    localStorage.setItem("faculty_email", data.email);
+        localStorage.setItem("faculty_phone", data.mobile);
     showToast("Login successful!", "success");
 
                 setTimeout(() => {
@@ -143,24 +146,19 @@ async function validateForm(event) {
 
         
 
-// Validate username (non-empty and at least 3 characters)
-function validateUsername(username) {
-    const usernameGroup = document.getElementById('username').parentElement;
-    
-    if (!username) {
-        showError(usernameGroup, 'Username is required');
+// Validate email (non-empty and at least 3 characters)
+function validateUsername(email) {
+    const emailGroup = document.getElementById('email').parentElement;
+    const regex = /^[^\s@]+@medicaps\.ac\.in$/;
+
+    if (!email) {
+        showError(emailGroup, 'Email is required');
         return false;
-    } else if (username.length < 3) {
-        showError(usernameGroup, 'Username must be at least 3 characters');
-        return false;
-    } else if (username.length > 20) {
-        showError(usernameGroup, 'Username must be less than 20 characters');
-        return false;
-    } else if (!/^[a-zA-Z0-9_-]+$/.test(username)) {
-        showError(usernameGroup, 'Username can only contain letters, numbers, dash and underscores');
+    } else if (!regex.test(email)) {
+        showError(emailGroup, 'Use your Medicaps email (example@medicaps.ac.in)');
         return false;
     } else {
-        showSuccess(usernameGroup);
+        showSuccess(emailGroup);
         return true;
     }
 }
@@ -168,31 +166,9 @@ function validateUsername(username) {
 // Validate password with new requirements
 function validatePassword(password) {
     const passwordGroup = document.getElementById('password').parentElement;
-    
-    // Check all requirements
-    const hasLength = password.length >= 8;
-    const hasUpperCase = /[A-Z]/.test(password);
-    const hasLowerCase = /[a-z]/.test(password);
-    const hasNumber = /[0-9]/.test(password);
-    const hasSpecial = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password);
-    
+
     if (!password) {
         showError(passwordGroup, 'Password is required');
-        return false;
-    } else if (!hasLength) {
-        showError(passwordGroup, 'Password must be at least 8 characters');
-        return false;
-    } else if (!hasUpperCase) {
-        showError(passwordGroup, 'Password must contain an uppercase letter');
-        return false;
-    } else if (!hasLowerCase) {
-        showError(passwordGroup, 'Password must contain a lowercase letter');
-        return false;
-    } else if (!hasNumber) {
-        showError(passwordGroup, 'Password must contain a number');
-        return false;
-    } else if (!hasSpecial) {
-        showError(passwordGroup, 'Password must contain a special character');
         return false;
     } else {
         showSuccess(passwordGroup);
@@ -272,12 +248,12 @@ function togglePassword() {
 
 // Forgot password functionality
 function forgotPassword() {
-    const username = document.getElementById('username').value.trim();
+    const email = document.getElementById('email').value.trim();
     
-    if (username && validateUsername(username)) {
+    if (email && validateUsername(email)) {
         showToast('Password reset link sent to your registered email!', 'success');
     } else {
-        showToast('Please enter a valid username first.', 'error');
+        showToast('Please enter a valid email first.', 'error');
     }
 }
 

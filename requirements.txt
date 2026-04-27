@@ -7,4 +7,4 @@ passlib
 python-multipart
 dotenv
 cryptography
-    
+    fastapi-mail
