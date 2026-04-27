@@ -12,7 +12,10 @@ let currentEditId = null;
 
 async function loadTeachers() {
     try {
-        const res = await fetch("https://attendance-tracker-tvx5.onrender.com/faculty");
+        const res = await fetch("https://attendance-tracker-tvx5.onrender.com/faculty", {method: "GET",
+  headers: {
+    "secret": "admin@122"   
+    }});
         if (!res.ok) throw new Error("Failed to fetch");
         const data = await res.json();
 
@@ -164,7 +167,7 @@ async function saveTeacherEdit(event) {
     };
 
     try {
-        const res = await fetch(`http://127.0.0.1:8000/faculty/${currentEditId}`, {
+        const res = await fetch(`https://attendance-tracker-tvx5.onrender.com/faculty/${currentEditId}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(updatedData)
@@ -189,7 +192,7 @@ function deleteTeacher(id, name) {
 
 async function confirmDelete() {
     try {
-        const res = await fetch(`http://127.0.0.1:8000/faculty/${currentDeleteId}`, {
+        const res = await fetch(`https://attendance-tracker-tvx5.onrender.com/faculty/${currentDeleteId}`, {
             method: "DELETE"
         });
 

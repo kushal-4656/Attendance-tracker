@@ -189,7 +189,7 @@ try {
     const response = await fetch("https://attendance-tracker-tvx5.onrender.com/register", {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json", "secret":"admin@122"
         },
         body: JSON.stringify({
             name: teacherData.fullName,
