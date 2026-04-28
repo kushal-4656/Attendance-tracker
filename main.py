@@ -48,7 +48,7 @@ def register(background_tasks:BackgroundTasks, user:schemas.register, db:Session
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
-    background_tasks.add_task(send_email, user.email, user.email, plain_password, user.name)
+    background_tasks.add_task(send_email, user.email, user.email, plain_password)
     return {"message":"registered successfully"}
 
 @app.post("/login")
