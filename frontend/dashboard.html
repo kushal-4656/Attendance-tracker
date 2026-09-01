@@ -1,162 +1,199 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Medicaps University - Dashboard</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Medicaps University - Dashboard</title>
 
-<link rel="stylesheet" href="dashcss2.css">
+    <link rel="stylesheet" href="dashcss2.css" />
 
-<!-- Font Awesome -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-</head>
-<body>
-
-<div class="container">
-    <!-- Header with Profile -->
-    <div class="header">
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header with Profile -->
+      <div class="header">
         <div class="logo">
-            <i class="fas fa-graduation-cap"></i>
-            <h2>Medicaps University</h2>
+          <i class="fas fa-graduation-cap"></i>
+          <h2>Medicaps University</h2>
         </div>
-        
-        <div class="profile-container">
-            <button class="profile-btn" onclick="toggleProfileDropdown()">
-                <i class="fas fa-user-circle"></i> My Profile <i class="fas fa-chevron-down"></i>
-            </button>
-            <div id="profileDropdown" class="profile-dropdown">
-                <div class="profile-header">
-                    <div class="profile-avatar">
-                        <i class="fas fa-chalkboard-user"></i>
-                    </div>
-                    <h4 id="profileName">Faculty Name</h4>
-                    <p>Faculty Member</p>
-                </div>
-                <div class="profile-info">
-                    <div class="info-item">
-                        <i class="fas fa-envelope"></i>
-                        <span>Email:</span>
-                        <span id="profileEmail">faculty@medicaps.ac.in</span>
-                    </div>
-                    <div class="info-item">
-                        <i class="fas fa-phone"></i>
-                        <span>Phone:</span>
-                        <span id="profilePhone">+91 98765 43210</span>
-                    </div>
-                </div>
-                <div class="profile-actions">
-                    <button class="profile-action-btn" onclick="openChangePasswordModal()">
-                        <i class="fas fa-key"></i> Change Password
-                    </button>
-                    <button class="profile-action-btn logout-btn-dropdown" onclick="logout()">
-                        <i class="fas fa-sign-out-alt"></i> Logout
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Welcome Section -->
-    <div class="welcome-section">
+        <div class="profile-container">
+          <button class="profile-btn" onclick="toggleProfileDropdown()">
+            <i class="fas fa-user-circle"></i> My Profile
+            <i class="fas fa-chevron-down"></i>
+          </button>
+          <div id="profileDropdown" class="profile-dropdown">
+            <div class="profile-header">
+              <div class="profile-avatar">
+                <i class="fas fa-chalkboard-user"></i>
+              </div>
+              <h4 id="profileName">Faculty Name</h4>
+              <p>Faculty Member</p>
+            </div>
+            <div class="profile-info">
+              <div class="info-item">
+                <i class="fas fa-envelope"></i>
+                <span>Email:</span>
+                <span id="profileEmail">faculty@medicaps.ac.in</span>
+              </div>
+              <div class="info-item">
+                <i class="fas fa-phone"></i>
+                <span>Phone:</span>
+                <span id="profilePhone">+91 98765 43210</span>
+              </div>
+            </div>
+            <div class="profile-actions">
+              <button
+                class="profile-action-btn"
+                onclick="openChangePasswordModal()"
+              >
+                <i class="fas fa-key"></i> Change Password
+              </button>
+              <button
+                class="profile-action-btn logout-btn-dropdown"
+                onclick="logout()"
+              >
+                <i class="fas fa-sign-out-alt"></i> Logout
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Welcome Section -->
+      <div class="welcome-section">
         <h1>Welcome, <span id="userName">Faculty</span>!</h1>
         <div class="date-time">
-            <i class="far fa-calendar-alt"></i>
-            <span id="dateTime"></span>
+          <i class="far fa-calendar-alt"></i>
+          <span id="dateTime"></span>
         </div>
-    </div>
+      </div>
 
-    <!-- Quick Stats -->
-    <div class="quick-stats">
+      <!-- Quick Stats -->
+      <div class="quick-stats">
         <div class="stat-item">
-            <i class="fas fa-calendar-check"></i>
-            <div class="label">Today's Attendance</div>
-            <div class="value" id="todayCount">0</div>
+          <i class="fas fa-calendar-check"></i>
+          <div class="label">Today's Attendance</div>
+          <div class="value" id="todayCount">0</div>
         </div>
         <div class="stat-item">
-            <i class="fas fa-users"></i>
-            <div class="label">Total Students</div>
-            <div class="value" id="totalStudents">0</div>
+          <i class="fas fa-users"></i>
+          <div class="label">Total Students</div>
+          <div class="value" id="totalStudents">0</div>
         </div>
         <div class="stat-item">
-            <i class="fas fa-chart-line"></i>
-            <div class="label">Avg. Attendance</div>
-            <div class="value" id="avgAttendance">0%</div>
+          <i class="fas fa-chart-line"></i>
+          <div class="label">Avg. Attendance</div>
+          <div class="value" id="avgAttendance">0%</div>
         </div>
         <div class="stat-item">
-            <i class="fas fa-clock"></i>
-            <div class="label">This Week</div>
-            <div class="value" id="weekCount">0</div>
+          <i class="fas fa-clock"></i>
+          <div class="label">This Week</div>
+          <div class="value" id="weekCount">0</div>
         </div>
-    </div>
+      </div>
 
-    <!-- Dashboard Cards -->
-    <div class="dashboard-cards">
+      <!-- Dashboard Cards -->
+      <div class="dashboard-cards">
         <a href="upload_attendance.html" class="card">
-            <div class="card-icon">
-                <i class="fas fa-upload"></i>
-            </div>
-            <h3>Upload Attendance</h3>
-            <p>Mark attendance for your classes</p>
-            <button class="card-btn" onclick="event.preventDefault(); window.location.href='upload_attendance.html'">
-                <i class="fas fa-arrow-right"></i> Upload Now
-            </button>
+          <div class="card-icon">
+            <i class="fas fa-upload"></i>
+          </div>
+          <h3>Upload Attendance</h3>
+          <p>Mark attendance for your classes</p>
+          <button
+            class="card-btn"
+            onclick="
+              event.preventDefault();
+              window.location.href = 'upload_attendance.html';
+            "
+          >
+            <i class="fas fa-arrow-right"></i> Upload Now
+          </button>
         </a>
 
         <a href="view_attendance.html" class="card">
-            <div class="card-icon">
-                <i class="fas fa-eye"></i>
-            </div>
-            <h3>View Attendance</h3>
-            <p>Check attendance records with filters</p>
-            <button class="card-btn" onclick="event.preventDefault(); window.location.href='view_attendance.html'">
-                <i class="fas fa-arrow-right"></i> View Now
-            </button>
+          <div class="card-icon">
+            <i class="fas fa-eye"></i>
+          </div>
+          <h3>View Attendance</h3>
+          <p>Check attendance records with filters</p>
+          <button
+            class="card-btn"
+            onclick="
+              event.preventDefault();
+              window.location.href = 'view_attendance.html';
+            "
+          >
+            <i class="fas fa-arrow-right"></i> View Now
+          </button>
         </a>
-    </div>
+      </div>
 
-    <!-- Recent Activity -->
-    <div class="recent-activity">
+      <!-- Recent Activity -->
+      <div class="recent-activity">
         <div class="section-header">
-            <h3><i class="fas fa-history"></i> Recent Attendance Records</h3>
-            <a href="view_attendance.html" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+          <h3><i class="fas fa-history"></i> Recent Attendance Records</h3>
+          <a href="view_attendance.html" class="view-all"
+            >View All <i class="fas fa-arrow-right"></i
+          ></a>
         </div>
         <div class="activity-list" id="recentActivity"></div>
+      </div>
     </div>
-</div>
 
-<!-- Change Password Modal -->
-<div id="passwordModal" class="modal-overlay">
-    <div class="modal">
+    <!-- Change Password Modal -->
+    <div id="passwordModal" class="modal-overlay">
+      <div class="modal">
         <div class="modal-header">
-            <h3><i class="fas fa-key"></i> Change Password</h3>
-            <button class="modal-close" onclick="closePasswordModal()">&times;</button>
+          <h3><i class="fas fa-key"></i> Change Password</h3>
+          <button class="modal-close" onclick="closePasswordModal()">
+            &times;
+          </button>
         </div>
         <div class="modal-body">
-            <div class="form-group">
-                <label>Current Password</label>
-                <input type="password" id="currentPassword" placeholder="Enter current password">
-            </div>
-            <div class="form-group">
-                <label>New Password</label>
-                <input type="password" id="newPassword" placeholder="Enter new password (min 6 chars)">
-            </div>
-            <div class="form-group">
-                <label>Confirm Password</label>
-                <input type="password" id="confirmPassword" placeholder="Confirm new password">
-            </div>
-            <button class="modal-btn" onclick="changePassword()">Update Password</button>
+          <div class="form-group">
+            <label>Current Password</label>
+            <input
+              type="password"
+              id="currentPassword"
+              placeholder="Enter current password"
+            />
+          </div>
+          <div class="form-group">
+            <label>New Password</label>
+            <input
+              type="password"
+              id="newPassword"
+              placeholder="Enter new password (min 6 chars)"
+            />
+          </div>
+          <div class="form-group">
+            <label>Confirm Password</label>
+            <input
+              type="password"
+              id="confirmPassword"
+              placeholder="Confirm new password"
+            />
+          </div>
+          <button class="modal-btn" onclick="changePassword()">
+            Update Password
+          </button>
         </div>
+      </div>
     </div>
-</div>
 
-<div id="toast" class="toast"></div>
-<div id="loadingOverlay" class="loading-overlay">
-    <div class="spinner"></div>
-    <p>Loading...</p>
-</div>
+    <div id="toast" class="toast"></div>
+    <div id="loadingOverlay" class="loading-overlay">
+      <div class="spinner"></div>
+      <p>Loading...</p>
+    </div>
 
-<script src="dashjs.js"></script>
-
-</body>
+    <script src="dashjs.js"></script>
+  </body>
 </html>

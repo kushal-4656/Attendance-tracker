@@ -185,7 +185,7 @@ function applyFilters() {
 
   const toDate = document.getElementById("toDate").value;
 
-  const department = document.getElementById("filterDepartment").value;
+  const department = document.getElementById("department").value;
 
   let filteredData = [...attendanceData];
 
@@ -201,7 +201,7 @@ function applyFilters() {
     );
   }
 
-  if (department !== "all") {
+  if (department !== "all" && department !== "") {
     filteredData = filteredData.filter(
       (record) => record.department === department,
     );
@@ -216,7 +216,7 @@ function applyFilters() {
 function resetFilters() {
   document.getElementById("fromDate").value = "";
   document.getElementById("toDate").value = "";
-  document.getElementById("filterDepartment").value = "all";
+  document.getElementById("department").value = "all";
 
   displayAttendance(attendanceData);
 
@@ -310,7 +310,9 @@ async function autoSelectDepartment() {
   const faculty_id = localStorage.getItem("faculty_id");
 
   try {
-    const res = await fetch(`https://attendance-tracker-tvx5.onrender.com/faculty/${faculty_id}`);
+    const res = await fetch(
+      `https://attendance-tracker-tvx5.onrender.com/faculty/${faculty_id}`,
+    );
     const data = await res.json();
 
     const dropdown = document.getElementById("department");
@@ -325,7 +327,9 @@ async function autoSelectDepartment() {
 }
 
 async function loadDepartments() {
-  const res = await fetch("https://attendance-tracker-tvx5.onrender.com/departments");
+  const res = await fetch(
+    "https://attendance-tracker-tvx5.onrender.com/departments",
+  );
   const data = await res.json();
 
   const dropdown = document.getElementById("department");

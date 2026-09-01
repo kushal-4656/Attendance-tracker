@@ -1,263 +1,313 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes"
+    />
     <title>Medicaps University - Manage Teachers</title>
-    <link rel="stylesheet" href="manage-teachers.css">
-    <script src="https://kit.fontawesome.com/aeeac66933.js" crossorigin="anonymous"></script>
-</head>
-<body>
+    <link rel="stylesheet" href="manage-teachers.css" />
+    <script
+      src="https://kit.fontawesome.com/aeeac66933.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
     <div class="container">
-        <div class="header">
-            <div class="logo">
-                <i class="fa-solid fa-chalkboard-user"></i>
-                <h1>Medicaps University</h1>
-            </div>
-            <div class="header-actions">
-                <a href="host.html" class="add-btn">
-                    <i class="fa-solid fa-user-plus"></i> Add New Teacher
-                </a>
-                <a href="index.html" class="logout-btn">
-                    <i class="fa-solid fa-sign-out-alt"></i> Logout
-                </a>
-            </div>
+      <div class="header">
+        <div class="logo">
+          <i class="fa-solid fa-chalkboard-user"></i>
+          <h1>Medicaps University</h1>
+        </div>
+        <div class="header-actions">
+          <a href="host.html" class="add-btn">
+            <i class="fa-solid fa-user-plus"></i> Add New Teacher
+          </a>
+          <a href="index.html" class="logout-btn">
+            <i class="fa-solid fa-sign-out-alt"></i> Logout
+          </a>
+        </div>
+      </div>
+
+      <div class="main-content">
+        <div class="page-title">
+          <h2>Manage Teachers</h2>
+          <p>View and manage all registered teachers</p>
         </div>
 
-        <div class="main-content">
-            <div class="page-title">
-                <h2>Manage Teachers</h2>
-                <p>View and manage all registered teachers</p>
-            </div>
-
-            <!-- Search and Filter Section -->
-            <div class="search-filter">
-                <div class="search-box">
-                    <i class="fa-solid fa-search"></i>
-                    <input type="text" id="searchInput" placeholder="Search by name, email, or department...">
-                </div>
-                <div class="filter-box">
-                    <select id="filterDept">
-                        <option value="">All Departments</option>
-                        <option value="Computer Science Engineering">Computer Science Engineering</option>
-                        <option value="Information Technology">Information Technology</option>
-                        <option value="Electronics & Communication">Electronics & Communication</option>
-                        <option value="Mechanical Engineering">Mechanical Engineering</option>
-                        <option value="Civil Engineering">Civil Engineering</option>
-                        <option value="Electrical Engineering">Electrical Engineering</option>
-                        <option value="Business Administration">Business Administration</option>
-                        <option value="Commerce">Commerce</option>
-                        <option value="Science & Humanities">Science & Humanities</option>
-                        <option value="Law">Law</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- Statistics Cards -->
-            <div class="stats-cards">
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fa-solid fa-users"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3 id="totalTeachers">0</h3>
-                        <p>Total Teachers</p>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fa-solid fa-building"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3 id="totalDepts">0</h3>
-                        <p>Departments</p>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fa-solid fa-envelope"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3 id="activeTeachers">0</h3>
-                        <p>Active Teachers</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Teachers Table -->
-            <div class="table-container">
-                <div class="table-header">
-                    <div class="table-actions">
-                        <button class="action-btn" onclick="exportData()">
-                            <i class="fa-solid fa-download"></i> Export
-                        </button>
-                        <button class="action-btn" onclick="refreshTable()">
-                            <i class="fa-solid fa-rotate-right"></i> Refresh
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="table-responsive">
-                    <table id="teachersTable">
-                        <thead>
-                            <tr>
-                                <th><input type="checkbox" id="selectAll" onclick="toggleSelectAll()"></th>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Department</th>
-                                <th>Status</th>
-                                <th>Join Date</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="teachersTableBody">
-                            <tr>
-                                <td colspan="9" class="loading-row">
-                                    <i class="fa-solid fa-spinner fa-spin"></i> Loading teachers...
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                
-                <!-- Pagination -->
-                <div class="pagination">
-                    <button onclick="changePage('prev')" id="prevBtn" disabled>
-                        <i class="fa-solid fa-chevron-left"></i> Previous
-                    </button>
-                    <span id="pageInfo">Page 1 of 1</span>
-                    <button onclick="changePage('next')" id="nextBtn" disabled>
-                        Next <i class="fa-solid fa-chevron-right"></i>
-                    </button>
-                </div>
-            </div>
+        <!-- Search and Filter Section -->
+        <div class="search-filter">
+          <div class="search-box">
+            <i class="fa-solid fa-search"></i>
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Search by name, email, or department..."
+            />
+          </div>
+          <div class="filter-box">
+            <select id="filterDept">
+              <option value="">All Departments</option>
+              <option value="Computer Science Engineering">
+                Computer Science Engineering
+              </option>
+              <option value="Information Technology">
+                Information Technology
+              </option>
+              <option value="Electronics & Communication">
+                Electronics & Communication
+              </option>
+              <option value="Mechanical Engineering">
+                Mechanical Engineering
+              </option>
+              <option value="Civil Engineering">Civil Engineering</option>
+              <option value="Electrical Engineering">
+                Electrical Engineering
+              </option>
+              <option value="Business Administration">
+                Business Administration
+              </option>
+              <option value="Commerce">Commerce</option>
+              <option value="Science & Humanities">Science & Humanities</option>
+              <option value="Law">Law</option>
+            </select>
+          </div>
         </div>
+
+        <!-- Statistics Cards -->
+        <div class="stats-cards">
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fa-solid fa-users"></i>
+            </div>
+            <div class="stat-info">
+              <h3 id="totalTeachers">0</h3>
+              <p>Total Teachers</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fa-solid fa-building"></i>
+            </div>
+            <div class="stat-info">
+              <h3 id="totalDepts">0</h3>
+              <p>Departments</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fa-solid fa-envelope"></i>
+            </div>
+            <div class="stat-info">
+              <h3 id="activeTeachers">0</h3>
+              <p>Active Teachers</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Teachers Table -->
+        <div class="table-container">
+          <div class="table-header">
+            <div class="table-actions">
+              <button class="action-btn" onclick="exportData()">
+                <i class="fa-solid fa-download"></i> Export
+              </button>
+              <button class="action-btn" onclick="refreshTable()">
+                <i class="fa-solid fa-rotate-right"></i> Refresh
+              </button>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table id="teachersTable">
+              <thead>
+                <tr>
+                  <th>
+                    <input
+                      type="checkbox"
+                      id="selectAll"
+                      onclick="toggleSelectAll()"
+                    />
+                  </th>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Department</th>
+                  <th>Status</th>
+                  <th>Join Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="teachersTableBody">
+                <tr>
+                  <td colspan="9" class="loading-row">
+                    <i class="fa-solid fa-spinner fa-spin"></i> Loading
+                    teachers...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Pagination -->
+          <div class="pagination">
+            <button onclick="changePage('prev')" id="prevBtn" disabled>
+              <i class="fa-solid fa-chevron-left"></i> Previous
+            </button>
+            <span id="pageInfo">Page 1 of 1</span>
+            <button onclick="changePage('next')" id="nextBtn" disabled>
+              Next <i class="fa-solid fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Edit Teacher Modal -->
     <div id="editModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3><i class="fa-solid fa-pen-to-square"></i> Edit Teacher</h3>
-                <span class="close" onclick="closeEditModal()">&times;</span>
-            </div>
-            <form id="editTeacherForm" onsubmit="saveTeacherEdit(event)">
-                <input type="hidden" id="editTeacherId">
-                <div class="form-group">
-                    <label>Full Name</label>
-                    <input type="text" id="editName" required>
-                </div>
-                <div class="form-group">
-                    <label>Email Address</label>
-                    <input type="email" id="editEmail" required>
-                </div>
-                <div class="form-group">
-                    <label>Phone Number</label>
-                    <input type="tel" id="editPhone" required>
-                </div>
-                <div class="form-group">
-                    <label>Department</label>
-                    <select id="editDept" required>
-                        <option value="">Select Department</option>
-                        <option value="Computer Science Engineering">Computer Science Engineering</option>
-                        <option value="Information Technology">Information Technology</option>
-                        <option value="Electronics & Communication">Electronics & Communication</option>
-                        <option value="Mechanical Engineering">Mechanical Engineering</option>
-                        <option value="Civil Engineering">Civil Engineering</option>
-                        <option value="Electrical Engineering">Electrical Engineering</option>
-                        <option value="Business Administration">Business Administration</option>
-                        <option value="Commerce">Commerce</option>
-                        <option value="Science & Humanities">Science & Humanities</option>
-                        <option value="Law">Law</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Status</label>
-                    <select id="editStatus" required>
-                        <option value="Active">Active</option>
-                        <option value="Inactive">Inactive</option>
-                        <option value="On Leave">On Leave</option>
-                    </select>
-                </div>
-                <div class="modal-buttons">
-                    <button type="button" class="cancel-btn" onclick="closeEditModal()">Cancel</button>
-                    <button type="submit" class="save-btn">Save Changes</button>
-                </div>
-            </form>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3><i class="fa-solid fa-pen-to-square"></i> Edit Teacher</h3>
+          <span class="close" onclick="closeEditModal()">&times;</span>
         </div>
+        <form id="editTeacherForm" onsubmit="saveTeacherEdit(event)">
+          <input type="hidden" id="editTeacherId" />
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" id="editName" required />
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="editEmail" required />
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" id="editPhone" required />
+          </div>
+          <div class="form-group">
+            <label>Department</label>
+            <select id="editDept" required>
+              <option value="">Select Department</option>
+              <option value="Computer Science Engineering">
+                Computer Science Engineering
+              </option>
+              <option value="Information Technology">
+                Information Technology
+              </option>
+              <option value="Electronics & Communication">
+                Electronics & Communication
+              </option>
+              <option value="Mechanical Engineering">
+                Mechanical Engineering
+              </option>
+              <option value="Civil Engineering">Civil Engineering</option>
+              <option value="Electrical Engineering">
+                Electrical Engineering
+              </option>
+              <option value="Business Administration">
+                Business Administration
+              </option>
+              <option value="Commerce">Commerce</option>
+              <option value="Science & Humanities">Science & Humanities</option>
+              <option value="Law">Law</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Status</label>
+            <select id="editStatus" required>
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+              <option value="On Leave">On Leave</option>
+            </select>
+          </div>
+          <div class="modal-buttons">
+            <button type="button" class="cancel-btn" onclick="closeEditModal()">
+              Cancel
+            </button>
+            <button type="submit" class="save-btn">Save Changes</button>
+          </div>
+        </form>
+      </div>
     </div>
 
     <!-- Delete Confirmation Modal -->
     <div id="deleteModal" class="modal">
-        <div class="modal-content delete-modal">
-            <div class="delete-icon">
-                <i class="fa-solid fa-trash-can"></i>
-            </div>
-            <h3>Delete Teacher</h3>
-            <p>Are you sure you want to delete <strong id="deleteTeacherName"></strong>?</p>
-            <p class="warning">This action cannot be undone!</p>
-            <div class="modal-buttons">
-                <button class="cancel-btn" onclick="closeDeleteModal()">Cancel</button>
-                <button class="delete-btn" onclick="confirmDelete()">Delete</button>
-            </div>
+      <div class="modal-content delete-modal">
+        <div class="delete-icon">
+          <i class="fa-solid fa-trash-can"></i>
         </div>
+        <h3>Delete Teacher</h3>
+        <p>
+          Are you sure you want to delete
+          <strong id="deleteTeacherName"></strong>?
+        </p>
+        <p class="warning">This action cannot be undone!</p>
+        <div class="modal-buttons">
+          <button class="cancel-btn" onclick="closeDeleteModal()">
+            Cancel
+          </button>
+          <button class="delete-btn" onclick="confirmDelete()">Delete</button>
+        </div>
+      </div>
     </div>
 
     <!-- View Teacher Modal -->
     <div id="viewModal" class="modal">
-        <div class="modal-content view-modal">
-            <div class="modal-header">
-                <h3><i class="fa-solid fa-user-circle"></i> Teacher Details</h3>
-                <span class="close" onclick="closeViewModal()">&times;</span>
-            </div>
-            <div class="teacher-details">
-                <div class="detail-avatar">
-                    <i class="fa-solid fa-chalkboard-user"></i>
-                </div>
-                <div class="detail-info">
-                    <div class="info-row">
-                        <label>Full Name:</label>
-                        <span id="viewName"></span>
-                    </div>
-                    <div class="info-row">
-                        <label>Teacher ID:</label>
-                        <span id="viewId"></span>
-                    </div>
-                    <div class="info-row">
-                        <label>Email:</label>
-                        <span id="viewEmail"></span>
-                    </div>
-                    <div class="info-row">
-                        <label>Phone:</label>
-                        <span id="viewPhone"></span>
-                    </div>
-                    <div class="info-row">
-                        <label>Department:</label>
-                        <span id="viewDept"></span>
-                    </div>
-                    <div class="info-row">
-                        <label>Status:</label>
-                        <span id="viewStatus"></span>
-                    </div>
-                    <div class="info-row">
-                        <label>Join Date:</label>
-                        <span id="viewJoinDate"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-buttons">
-                <button class="edit-btn" onclick="editFromView()">Edit Teacher</button>
-                <button class="close-btn" onclick="closeViewModal()">Close</button>
-            </div>
+      <div class="modal-content view-modal">
+        <div class="modal-header">
+          <h3><i class="fa-solid fa-user-circle"></i> Teacher Details</h3>
+          <span class="close" onclick="closeViewModal()">&times;</span>
         </div>
+        <div class="teacher-details">
+          <div class="detail-avatar">
+            <i class="fa-solid fa-chalkboard-user"></i>
+          </div>
+          <div class="detail-info">
+            <div class="info-row">
+              <label>Full Name:</label>
+              <span id="viewName"></span>
+            </div>
+            <div class="info-row">
+              <label>Teacher ID:</label>
+              <span id="viewId"></span>
+            </div>
+            <div class="info-row">
+              <label>Email:</label>
+              <span id="viewEmail"></span>
+            </div>
+            <div class="info-row">
+              <label>Phone:</label>
+              <span id="viewPhone"></span>
+            </div>
+            <div class="info-row">
+              <label>Department:</label>
+              <span id="viewDept"></span>
+            </div>
+            <div class="info-row">
+              <label>Status:</label>
+              <span id="viewStatus"></span>
+            </div>
+            <div class="info-row">
+              <label>Join Date:</label>
+              <span id="viewJoinDate"></span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-buttons">
+          <button class="edit-btn" onclick="editFromView()">
+            Edit Teacher
+          </button>
+          <button class="close-btn" onclick="closeViewModal()">Close</button>
+        </div>
+      </div>
     </div>
 
     <!-- Toast Notification -->
     <div id="toast" class="toast"></div>
 
     <script src="manage-teachers.js"></script>
-</body>
+  </body>
 </html>
